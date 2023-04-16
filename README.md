@@ -1,2 +1,4 @@
-# JS-Dev-Course-Project-1
-👩‍💻 Project 1: Vanilla JavaScript sprite animation techniques
+# [JavaScript Game Development Course for Beginners](https://youtu.be/GFO_txvwK_c)
+This is the first project in this introduction to JS Development course from Free Code Camp, with Franks Laboratory.
+
+
