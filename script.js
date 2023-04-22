@@ -32,8 +32,7 @@ let frameY = 0;
 gameFrame = 0;
 
 // Will slow down animation by that amount -- higher the number, the slower the animation will be 
-const staggerFrames = 8;
-
+const staggerFrames = 5;
 
 function animate() { 
 
@@ -41,8 +40,13 @@ function animate() {
     // Takes in args to specify what area we want to clear, here we are clearing entire area
     ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
-    // ctx.fillStyle = 'black';
-    // ctx.fillRect(0, 50, 100, 100);
+    // Cycle through horizontal sprite sheets
+    // Math.floor - get rid of decimal points, 6 - last number in idle animation frames currently being used
+    // gameFrame is an ever increasing number, and staggerFrames is always 5
+    let position = Math.floor(gameFrame / staggerFrames) % 6;
+
+    // position will cycle between 0 and the number specified last (6)
+    frameX = spriteWidth * position;
 
     // For working with sprite animations - most interested in canvas drawImage() method
     // You can pass it 3, 5, or 9 args depending on how much control you want to have over the image 
@@ -59,29 +63,14 @@ function animate() {
         // Sixth - Ninth args (canvas destination info) - where on canvas to draw that cropped part of the image (x, y, width, height)
         // ctx.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh);
 
-
     // Multiplying spriteWidth and spriteHeight by a number allows you to use a different frame in that row or column
         // 0 * the width or height is the first sprite on the sheet
         // 1 * the width or height is the second sprite on the sheet, and so on
         // EXAMPLE: 0 * spriteWidth, 0 * spriteHeight is the sprite in first row and column (top left)
         // EXAMPLE: 0 * spriteWidth, 1 * spriteHeight is the sprite in second row and first column (left and first down)
-        // EXAMPLE: 1 * spriteWidth, 0 * spriteHeight is the sprite in first row and second column 
-    ctx.drawImage(playerImage, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
-
-    // gameFrame is an ever increasing number, and staggerFrames is always 5
-    // So checking if mod is 0 -- This will return true every 5 frames
-    // Then increasing the frameX will only take place every 5 frames -- slowing down the animation 5 times
-    if (gameFrame % staggerFrames == 0){
         
-         // Check that frameX is less than the number of the last frame in the animation
-        if (frameX < 6) {
-            frameX++;
-        } else {
-            frameX = 0;
-        }
-    }
-
-
+        // We can remove * spriteWidth from frameX now because it is getting calculated previously
+        ctx.drawImage(playerImage, frameX, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
 
     gameFrame++;
     requestAnimationFrame(animate);
