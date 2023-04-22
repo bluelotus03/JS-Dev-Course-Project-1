@@ -22,17 +22,88 @@ const spriteWidth = 575;
 // Divide height of sprite sheet (5230px) by number of rows (10) to get height of 1 frame --> 523px 
 const spriteHeight = 523;
 
-// Allow us to have movement (move a frame left/right or up/down), setting starting frame to the first one (top left)
-// X -> travels through sprite sheet horizontally
-let frameX = 0; 
-// Y -> travels through sprite sheet vertically
-let frameY = 0;
+// Determines which animation to show
+playerState = 'idle';
 
 // Used to count frame rate and work with staggerFrames in the animate() function
 gameFrame = 0;
 
 // Will slow down animation by that amount -- higher the number, the slower the animation will be 
 const staggerFrames = 5;
+
+// Stores all the positions of sprites for a given animation (row) as calculated in forEach() below
+const spriteAnimations = [];
+
+// Used to create a simple map that will match sprite sheet
+const animationStates = [
+    {
+        name: 'idle',
+        numOfFrames: 7,
+    },
+    {
+        name: 'jump',
+        numOfFrames: 7,
+    }, 
+    {
+        name: 'fall',
+        numOfFrames: 7,
+    },
+    {
+        name: 'run',
+        numOfFrames: 9,
+    },
+    {
+        name: 'dizzy',
+        numOfFrames: 11,
+    },
+    {
+        name: 'sit',
+        numOfFrames: 5,
+    },
+    {
+        name: 'roll',
+        numOfFrames: 7,
+    },
+    {
+        name: 'bite',
+        numOfFrames: 7,
+    },
+    {
+        name: 'ko',
+        numOfFrames: 12,
+    },
+    {
+        name: 'getHit',
+        numOfFrames: 4,
+    }
+];
+
+// This callback function will run for each element in the animationStates array
+// state - object in animation state being accessed
+// index - stores num of each element as we cycle through the array
+animationStates.forEach((state, index) => {
+    let frames = {
+        loc: [],
+    }
+
+    for (let j = 0; j < state.numOfFrames; j++){
+
+        // positionX will continue to increase for each frame in the current animation state (moving right in the row of sprites)
+        let positionX = j * spriteWidth;
+
+        // positionY will be same for all sprites a row - like "idle" animation
+        // then once a row is done, the outer loop will increase the index and move down a row to the next animation
+        let positionY = index * spriteHeight;
+
+        // Push these values to the loc array above
+        frames.loc.push({
+            x: positionX,
+            y: positionY
+        });
+    }
+    spriteAnimations[state.name] = frames;
+});
+console.log(spriteAnimations);
 
 function animate() { 
 
@@ -43,10 +114,14 @@ function animate() {
     // Cycle through horizontal sprite sheets
     // Math.floor - get rid of decimal points, 6 - last number in idle animation frames currently being used
     // gameFrame is an ever increasing number, and staggerFrames is always 5
-    let position = Math.floor(gameFrame / staggerFrames) % 6;
+    let position = Math.floor(gameFrame / staggerFrames) % spriteAnimations[playerState].loc.length;
 
     // position will cycle between 0 and the number specified last (6)
-    frameX = spriteWidth * position;
+    // X -> travels through sprite sheet horizontally
+    let frameX = spriteWidth * position;
+
+    // Y -> travels through sprite sheet vertically
+    let frameY = spriteAnimations[playerState].loc[position].y;
 
     // For working with sprite animations - most interested in canvas drawImage() method
     // You can pass it 3, 5, or 9 args depending on how much control you want to have over the image 
@@ -70,7 +145,7 @@ function animate() {
         // EXAMPLE: 0 * spriteWidth, 1 * spriteHeight is the sprite in second row and first column (left and first down)
         
         // We can remove * spriteWidth from frameX now because it is getting calculated previously
-        ctx.drawImage(playerImage, frameX, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
+        ctx.drawImage(playerImage, frameX, frameY, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
 
     gameFrame++;
     requestAnimationFrame(animate);
