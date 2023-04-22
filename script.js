@@ -41,7 +41,7 @@ const spriteHeight = 523;
 gameFrame = 0;
 
 // Will slow down animation by that amount -- higher the number, the slower the animation will be 
-const staggerFrames = 5;
+const staggerFrames = 8;
 
 // Stores all the positions of sprites for a given animation (row) as calculated in forEach() below
 const spriteAnimations = [];
