@@ -113,8 +113,12 @@ animationStates.forEach((state, index) => {
             y: positionY
         });
     }
+
+    // Save each animation state with its frame locations info that has been stored in the frames array
     spriteAnimations[state.name] = frames;
 });
+
+// See the animation objects with all of their frame locations (x and y coordinates)
 console.log(spriteAnimations);
 
 function animate() { 
