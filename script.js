@@ -1,3 +1,18 @@
+// Default state
+playerState = 'idle';
+
+// Gets the dropdown element
+const dropdown = document.getElementById('animations');
+
+// Use event listener to detect change in the dropdown
+dropdown.addEventListener('change', function(e){
+
+    // When the event listener detects a change, playerState is set to that new value
+    // target is referring to an element that was clicked
+    playerState = e.target.value;
+
+})
+
 const canvas = document.getElementById('canvas1');
 
 // You could also pass webgl to get access to a different set of methods
@@ -21,9 +36,6 @@ const spriteWidth = 575;
 
 // Divide height of sprite sheet (5230px) by number of rows (10) to get height of 1 frame --> 523px 
 const spriteHeight = 523;
-
-// Determines which animation to show
-playerState = 'idle';
 
 // Used to count frame rate and work with staggerFrames in the animate() function
 gameFrame = 0;
@@ -145,7 +157,7 @@ function animate() {
         // EXAMPLE: 0 * spriteWidth, 1 * spriteHeight is the sprite in second row and first column (left and first down)
         
         // We can remove * spriteWidth from frameX now because it is getting calculated previously
-        ctx.drawImage(playerImage, frameX, frameY, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
+        ctx.drawImage(playerImage, frameX, frameY, spriteWidth, spriteHeight, 10, 30, spriteWidth, spriteHeight);
 
     gameFrame++;
     requestAnimationFrame(animate);
