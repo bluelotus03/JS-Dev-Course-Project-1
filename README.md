@@ -3,7 +3,6 @@ Completed the first project in this course from [Free Code Camp](https://www.you
 
 ## 👉 [Try it out!](https://bluelotus03.github.io/JS-Dev-Course-Project-1/)
 #### Note: To get the full effect, you need to view this on a desktop. 
-#### Mobile view will allow you to get some of the animation frames though!
 
 ![Sprite Animation Dropdown](SpriteAnimationDropdown.gif)
 
