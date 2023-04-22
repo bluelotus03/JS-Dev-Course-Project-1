@@ -22,11 +22,17 @@ const spriteWidth = 575;
 // Divide height of sprite sheet (5230px) by number of rows (10) to get height of 1 frame --> 523px 
 const spriteHeight = 523;
 
-// Allow us to have movement (move a frame left/right or up/down)
+// Allow us to have movement (move a frame left/right or up/down), setting starting frame to the first one (top left)
 // X -> travels through sprite sheet horizontally
 let frameX = 0; 
 // Y -> travels through sprite sheet vertically
 let frameY = 0;
+
+// Used to count frame rate and work with staggerFrames in the animate() function
+gameFrame = 0;
+
+// Will slow down animation by that amount -- higher the number, the slower the animation will be 
+const staggerFrames = 8;
 
 
 function animate() { 
@@ -62,13 +68,22 @@ function animate() {
         // EXAMPLE: 1 * spriteWidth, 0 * spriteHeight is the sprite in first row and second column 
     ctx.drawImage(playerImage, frameX * spriteWidth, frameY * spriteHeight, spriteWidth, spriteHeight, 0, 0, spriteWidth, spriteHeight);
 
-    // Check that frameX is less than the number of the last frame in the animation
-    if (frameX < 6) {
-        frameX++;
-    } else {
-        frameX = 0;
+    // gameFrame is an ever increasing number, and staggerFrames is always 5
+    // So checking if mod is 0 -- This will return true every 5 frames
+    // Then increasing the frameX will only take place every 5 frames -- slowing down the animation 5 times
+    if (gameFrame % staggerFrames == 0){
+        
+         // Check that frameX is less than the number of the last frame in the animation
+        if (frameX < 6) {
+            frameX++;
+        } else {
+            frameX = 0;
+        }
     }
 
+
+
+    gameFrame++;
     requestAnimationFrame(animate);
 }
 
