@@ -5,21 +5,16 @@
     height: 600;
     
     /* Canvas margins */
-    top: 150;
-    left: 150;
+    top: 50%;
+    left: 50%;
 
-    border: 5px solid purple;
-    display: block;
-}
-
-html {
-    background-color: black;
+    transform: translate(-50%, -50%);
 }
 
 .controls {
     position: absolute;
     z-index: 10;
-    top: 30px;
+    top: 50px;
     left: 50%;
     /* Center it horizontally */
     transform: translateX(-50%);
